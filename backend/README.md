@@ -3,7 +3,7 @@
 This is the backend for the Pokedex exercises.
 
 ## Getting started
-
+ 
 1. Clone this repository
 2. Install dependencies with `npm install`
 3. Copy the **.env.example** file to a new file in the same location called
