@@ -19,7 +19,7 @@ const PokemonBrowser = () => {
   useEffect(() => {
     dispatch(getPokemon());
   }, [dispatch]);
-  
+
   if (!pokemon) {
     return null;
   }
@@ -41,7 +41,7 @@ const PokemonBrowser = () => {
                 <div
                   className="nav-entry-image"
                   style={{ backgroundImage: `url('${pokemon.imageUrl}')` }}
-                ></div>
+                />
                 <div>
                   <div className="primary-text">{pokemon.name}</div>
                   <div className="secondary-text">

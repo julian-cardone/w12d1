@@ -6,47 +6,68 @@ export const ADD_ITEM = "items/ADD_ITEM";
 const load = (items, pokemonId) => ({
   type: LOAD_ITEMS,
   items,
-  pokemonId
+  pokemonId,
 });
 
 const update = (item) => ({
   type: UPDATE_ITEM,
-  item
+  item,
 });
 
 const add = (item) => ({
   type: ADD_ITEM,
-  item
+  item,
 });
 
 const remove = (itemId, pokemonId) => ({
   type: REMOVE_ITEM,
   itemId,
-  pokemonId
+  pokemonId,
 });
+
+export const fetchPokemonItems = (pokemonId) => async (dispatch) => {
+  const response = await fetch(`/api/pokemon/${pokemonId}/items`);
+  if (response.ok) {
+    const items = await response.json();
+    dispatch(load(items));
+  }
+};
+
+export const createItem = (pokemon, item) => async (dispatch) => {
+  const response = await fetch(`/api/pokemon/${pokemon.id}/items`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
+
+  if (response.ok) {
+    const item = await response.json();
+    dispatch(add(item));
+  }
+};
 
 const initialState = {};
 
 const itemsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOAD_ITEMS: 
+    case LOAD_ITEMS:
       const newItems = {};
-      action.items.forEach(item => {
+      action.items.forEach((item) => {
         newItems[item.id] = item;
-      })
+      });
       return {
         ...state,
-        ...newItems
-      }
-    case REMOVE_ITEM: 
+        ...newItems,
+      };
+    case REMOVE_ITEM:
       const newState = { ...state };
       delete newState[action.itemId];
       return newState;
     case ADD_ITEM:
-    case UPDATE_ITEM: 
+    case UPDATE_ITEM:
       return {
         ...state,
-        [action.item.id]: action.item
+        [action.item.id]: action.item,
       };
     default:
       return state;
